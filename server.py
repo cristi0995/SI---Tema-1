@@ -14,11 +14,6 @@ IV = b'security = swell'
 def encrypt_key(plaintext):
     return AES.new(primeKey.encode('utf-8'), AES.MODE_ECB).encrypt(plaintext.encode('utf-8'))
 
-def ECB(key):
-    return str(key)
-
-def CBC(key):
-    return str(key)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
@@ -29,7 +24,7 @@ while True:
     clientA, address = s.accept()
     print('S-a connectat clientul \'A\' !')
     print('Waiting...')
-    msg = clientA.recv(1024)
+    msg = clientA.recv(100)
     print(msg)
     if msg == 'ECB':
         clientA.send(bytes(encrypt_key(ecb_key),'UTF-8'))
