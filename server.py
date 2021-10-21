@@ -1,15 +1,12 @@
 import socket
-import os
 from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
 
 
 PORT = 1222
 HOST = '127.0.0.1'
-cbc_key = "8u/A?D*G-KaPdSgV"
-ecb_key = get_random_bytes(16)
+key = "8u/A?D*G-KaPdSgV"
 primeKey = "abcdefgh12345678"
-IV = b'security = swell'
+
 
 def encrypt_key(plaintext):
     return AES.new(primeKey.encode('utf-8'), AES.MODE_ECB).encrypt(plaintext.encode('utf-8'))
@@ -23,13 +20,13 @@ msg = ''
 while True:
     clientA, address = s.accept()
     print('S-a connectat clientul \'A\' !')
-    print('Waiting...')
+    print('In asteptare...')
     msg = clientA.recv(100)
     print(msg)
     if msg == 'ECB':
-        clientA.send(bytes(encrypt_key(ecb_key),'UTF-8'))
+        clientA.send(bytes(encrypt_key(key),'UTF-8'))
     else:
-        print(f'Key:           {cbc_key}')
-        x = encrypt_key(cbc_key)
-        print(f'Encrypted_key: {x}')
+        print(f'Cheia:           {key}')
+        x = encrypt_key(key)
+        print(f'Cheia criptata:  {x}')
         clientA.send(x)
